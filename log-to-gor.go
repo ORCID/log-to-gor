@@ -114,7 +114,7 @@ func processLogs(r io.Reader, w io.Writer, p *parser.RegexParser) (int, error) {
 		if err != nil {
 			return processedCount, fmt.Errorf("failed to write header: %w", err)
 		}
-		_, err = fmt.Fprintf(w, "%s\n\n", requestLine)
+		_, err = fmt.Fprintf(w, "%s\r\n\r\n\n", requestLine)
 		if err != nil {
 			return processedCount, fmt.Errorf("failed to write request line: %w", err)
 		}
@@ -132,7 +132,7 @@ func processLogs(r io.Reader, w io.Writer, p *parser.RegexParser) (int, error) {
 
 // generateRequestID creates a random 16-byte slice and returns it as a 32-character hex string.
 func generateRequestID() (string, error) {
-	bytes := make([]byte, 16)
+	bytes := make([]byte, 12)
 	if _, err := rand.Read(bytes); err != nil {
 		return "", err
 	}
